@@ -4,6 +4,11 @@ class ApiError(Exception):
         self.code = code
 
 
+class InvalidToken(ApiError):
+    def __init__(self):
+        super().__init__("Unauthorized", 401)
+
+
 class InvalidParams(ApiError):
     def __init__(self):
         super().__init__("Invalid parameters", 400)
