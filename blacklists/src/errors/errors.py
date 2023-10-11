@@ -6,9 +6,9 @@ class ApiError(Exception):
 
 class InvalidParams(ApiError):
     def __init__(self):
-        super().__init("Invalid parameters", 400)
+        super().__init__("Invalid parameters", 400)
 
 
 class EmailAlreadyExists(ApiError):
     def __init__(self):
-        super().__init("Email already exists in the blacklist", 409)
+        super().__init__("Email already exists in the blacklist", 412)
