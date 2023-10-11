@@ -1,0 +1,21 @@
+version: '3'
+services:
+  blacklists-service:
+    build:
+      context: ./blacklists
+    ports:
+      - "3000:3000"
+    depends_on:
+      blacklists-db:
+        condition: service_healthy
+  blacklists-db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=blacklists
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
