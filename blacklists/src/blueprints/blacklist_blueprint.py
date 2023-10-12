@@ -3,8 +3,11 @@ from ..commands.check_blacklist_command import CheckBlacklistCommand
 from ..errors.errors import InvalidParams, InvalidToken
 from flask import Blueprint, request, jsonify
 from functools import wraps
+from dotenv import load_dotenv
+import os
 
-auth_token = "1234567890"
+load_dotenv('.env.development')
+auth_token = os.environ.get('AUTH_TOKEN')
 blacklist_blueprint = Blueprint('blacklist', __name__)
 
 
