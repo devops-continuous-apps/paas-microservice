@@ -26,6 +26,7 @@ def add_to_blacklist():
     email = data.get('email')
     app_uuid = data.get('app_uuid')
     blocked_reason = data.get('blocked_reason')
+    source_ip = request.remote_addr
 
     if not email or not app_uuid:
         raise InvalidParams()
@@ -33,6 +34,7 @@ def add_to_blacklist():
     add_to_blacklist_command = AddToBlacklistCommand(
         email,
         app_uuid,
+        source_ip,
         blocked_reason,
     )
     result = add_to_blacklist_command.execute()

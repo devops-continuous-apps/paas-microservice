@@ -1,3 +1,4 @@
+from datetime import datetime
 from ..models.blacklist_entry import BlacklistEntry
 from ..errors.errors import InvalidParams, EmailAlreadyExists
 from ..models.blacklist_entry import db
@@ -5,9 +6,10 @@ from .base_command import BaseCommand
 
 
 class AddToBlacklistCommand(BaseCommand):
-    def __init__(self, email, app_uuid, blocked_reason=None):
+    def __init__(self, email, app_uuid, source_ip, blocked_reason=None):
         self.email = email
         self.app_uuid = app_uuid
+        self.source_ip = source_ip
         self.blocked_reason = blocked_reason
 
     def execute(self):
@@ -23,7 +25,9 @@ class AddToBlacklistCommand(BaseCommand):
         new_entry = BlacklistEntry(
             email=self.email,
             app_uuid=self.app_uuid,
-            blocked_reason=self.blocked_reason
+            blocked_reason=self.blocked_reason,
+            source_ip=self.source_ip,
+            created_at=datetime.utcnow(),
         )
 
         # Add the entry to the database

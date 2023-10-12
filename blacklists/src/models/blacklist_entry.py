@@ -9,10 +9,11 @@ db = SQLAlchemy()
 
 class BlacklistEntry(db.Model):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    created_at = Column(DateTime)
     email = Column(String, unique=True, nullable=False)
     app_uuid = Column(UUID(as_uuid=True), nullable=False)
-    blocked_reason = Column(String)
+    blocked_reason = Column(String(length=255))
+    created_at = Column(DateTime)
+    source_ip = Column(String)
 
 
 class BlacklistEntrySchema(Schema):
@@ -21,3 +22,4 @@ class BlacklistEntrySchema(Schema):
     app_uuid = fields.UUID()
     blocked_reason = fields.Str()
     created_at = fields.DateTime()
+    source_ip = fields.Str()
