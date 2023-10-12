@@ -44,6 +44,10 @@ To set up and run the project, follow these steps:
    docker-compose -f "docker-compose.yml" up --build
    ```
 
+## Postman Collection
+
+ Download the [Postman Collection](Blacklists.postman_collection.json) to test the API. Remember to set the environment variables before running the requests.
+
 ## License
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)

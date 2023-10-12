@@ -1,0 +1,409 @@
+{
+	"info": {
+		"_postman_id": "42adf57e-d102-45fa-a9d4-2a8ecb553d3f",
+		"name": "Blacklists",
+		"description": "Esta colección contiene todos los endpoints de la API REST de \"blacklists\", una aplicación para el manejo de listas negras (denylist) de emails para diferentes compañias\n\n## **Lista de Enpoints**\n\n- POST `/blacklists`\n- GET `/blacklists/{string:email}`\n    \n\nPara utilizar esta colección configurar un \"Environment\" de Postman con las siguientes variables:\n\n- `APP_URL`: Url de la aplicación en formato \"[http://ipordomain:port\"](http://ipordomain:port\") -> No agregué `/` al final\n    \n- `AUTH_TOKEN`: Secreto configurado en la aplicación para la autorización de las peticiones",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7915741"
+	},
+	"item": [
+		{
+			"name": "Create Blacklist",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const email = pm.variables.replaceIn(\"{{$randomEmail}}\").toLowerCase();",
+							"const uuid = pm.variables.replaceIn(\"{{$guid}}\").toLowerCase();",
+							"const blockedReason = pm.variables.replaceIn(\"{{$randomLoremParagraph}}\");",
+							"",
+							"pm.collectionVariables.set('EMAIL', email);",
+							"pm.collectionVariables.set('UUID', uuid);",
+							"pm.collectionVariables.set('BLOCKED_REASON', blockedReason);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Status should be 201\"] = responseCode.code == 201;",
+							"tests[\"Response has message\"] = jsonData.message !== undefined;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{AUTH_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{EMAIL}}\",\n    \"app_uuid\": \"{{UUID}}\",\n    \"blocked_reason\": \"{{BLOCKED_REASON}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}/blacklists",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"blacklists"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "201  OK",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{EMAIL}}\",\n    \"app_uuid\": \"{{UUID}}\",\n    \"blocked_reason\": \"{{BLOCKED_REASON}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APP_URL}}/blacklists",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"blacklists"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Email added to the blacklist\"\n}"
+				},
+				{
+					"name": "401 Unauthorized",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{EMAIL}}\",\n    \"app_uuid\": \"{{UUID}}\",\n    \"blocked_reason\": \"{{BLOCKED_REASON}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APP_URL}}/blacklists",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"blacklists"
+							]
+						}
+					},
+					"status": "UNAUTHORIZED",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.0 Python/3.10.13"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 12 Oct 2023 21:38:58 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "23"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"msg\": \"Unauthorized\"\n}"
+				},
+				{
+					"name": "400 Missing Parameters",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APP_URL}}/blacklists",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"blacklists"
+							]
+						}
+					},
+					"status": "BAD REQUEST",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.0 Python/3.10.13"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 12 Oct 2023 21:39:31 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "29"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"msg\": \"Invalid parameters\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GET Blacklist status by Email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Status should be 201\"] = responseCode.code == 200;",
+							"tests[\"Response has blocked\"] = jsonData.blocked == true;",
+							"tests[\"Response has blocked_reason\"] = jsonData.blocked_reason == pm.collectionVariables.get('BLOCKED_REASON')",
+							"tests[\"Response has email\"] = jsonData.email == pm.collectionVariables.get('EMAIL')"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{AUTH_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{APP_URL}}/blacklists/{{EMAIL}}",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"blacklists",
+						"{{EMAIL}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200 OK blocked",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APP_URL}}/blacklists/{{EMAIL}}",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"blacklists",
+								"{{EMAIL}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.0 Python/3.10.13"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 12 Oct 2023 21:44:33 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "274"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"blocked\": true,\n    \"blocked_reason\": \"Ad autem explicabo et sint ducimus quam reprehenderit. Soluta eum in voluptas ullam quia ratione voluptatibus vitae sequi. Et consequuntur omnis et. Beatae nisi possimus mollitia voluptates sit maiores sed.\",\n    \"email\": \"jasper29@hotmail.com\"\n}"
+				},
+				{
+					"name": "200 OK nonblocked",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APP_URL}}/blacklists/nonblocked@gmail.com",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"blacklists",
+								"nonblocked@gmail.com"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.0 Python/3.10.13"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 12 Oct 2023 21:45:14 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "71"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"blocked\": false,\n    \"blocked_reason\": null,\n    \"email\": \"nonblocked@gmail.com\"\n}"
+				},
+				{
+					"name": "401 Unauthorized",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APP_URL}}/blacklists/{{EMAIL}}",
+							"host": [
+								"{{APP_URL}}"
+							],
+							"path": [
+								"blacklists",
+								"{{EMAIL}}"
+							]
+						}
+					},
+					"status": "UNAUTHORIZED",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.0 Python/3.10.13"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 12 Oct 2023 21:45:34 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "23"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"msg\": \"Unauthorized\"\n}"
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "EMAIL",
+			"value": ""
+		},
+		{
+			"key": "UUID",
+			"value": ""
+		},
+		{
+			"key": "BLOCKED_REASON",
+			"value": ""
+		}
+	]
+}

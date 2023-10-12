@@ -3,6 +3,8 @@ services:
   blacklists-service:
     build:
       context: ./blacklists
+    environment:
+      - AUTH_TOKEN=1234567890
     ports:
       - "3000:3000"
     depends_on:
