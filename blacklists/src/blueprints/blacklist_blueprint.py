@@ -1,10 +1,12 @@
+import os
+from functools import wraps
+
+from dotenv import load_dotenv
+from flask import Blueprint, request, jsonify
+
 from ..commands.add_to_blacklist_command import AddToBlacklistCommand
 from ..commands.check_blacklist_command import CheckBlacklistCommand
 from ..errors.errors import InvalidParams, InvalidToken
-from flask import Blueprint, request, jsonify
-from functools import wraps
-from dotenv import load_dotenv
-import os
 
 load_dotenv('.env.development')
 auth_token = os.environ.get('AUTH_TOKEN')
@@ -19,6 +21,7 @@ def require_token(func):
             return func(*args, **kwargs)
         else:
             raise InvalidToken()
+
     return decorated_function
 
 
@@ -55,3 +58,8 @@ def check_blacklist(email):
         'blocked': is_blocked,
         'blocked_reason': blocked_reason
     }), 200
+
+
+@blacklist_blueprint.route('/ping', methods=['GET'])
+def ping():
+    return jsonify({'message': 'pong'}), 200
