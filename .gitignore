@@ -13,6 +13,9 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+.idea
+.DS_Store
+
 # Mono auto generated files
 mono_crash.*
 
@@ -326,6 +329,7 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+venv
 
 # Cake - Uncomment if you are using it
 # tools/**
