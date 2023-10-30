@@ -2,6 +2,7 @@ import pytest
 from unittest.mock import Mock
 from src.commands.check_blacklist_command import CheckBlacklistCommand
 
+
 @pytest.fixture
 def mock_blacklist_entry(monkeypatch):
     mocked_entry = Mock()
