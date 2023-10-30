@@ -9,6 +9,8 @@ Manual deployment of a microservice on a Platform as a Service (PaaS) environmen
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Usage](#usage)
+    - [Running Tests](#running-tests)
+  - [Postman Collection](#postman-collection)
   - [License](#license)
 
 ## Getting Started
@@ -44,9 +46,17 @@ To set up and run the project, follow these steps:
    docker-compose -f "docker-compose.yml" up --build
    ```
 
+### Running Tests
+
+To run the tests, use the following command:
+
+```bash
+pytest --cov-fail-under=70 --cov=src
+```
+
 ## Postman Collection
 
- Download the [Postman Collection](Blacklists.postman_collection.json) to test the API. Remember to set the environment variables before running the requests.
+Download the [Postman Collection](Blacklists.postman_collection.json) to test the API. Remember to set the environment variables before running the requests.
 
 ## License
 
