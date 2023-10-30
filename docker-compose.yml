@@ -2,9 +2,10 @@ version: '3'
 services:
   blacklists-service:
     build:
-      context: ./blacklists
+      context: .
     environment:
       - AUTH_TOKEN=1234567890
+      - DB_HOST=blacklists-db
     ports:
       - "3000:3000"
     depends_on:
