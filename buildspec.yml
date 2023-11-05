@@ -1,0 +1,54 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    commands:
+      - echo Installing dependencies...
+      - pip3 install -r requirements.txt
+      - mkdir test-reports
+  pre_build:
+    commands:
+      - echo Run tests
+      - pytest
+        --html=test-reports/report.html
+        --self-contained-html
+        -s
+        -v
+        --cov=src
+        --cov-fail-under=70
+        --cov-report=html:test-reports/coverage
+        --junitxml=test-reports/junit.xml
+        --log-file=test-reports/logs.txt
+        tests
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 887664210442.dkr.ecr.us-east-1.amazonaws.com
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t paas-microservice .
+      - docker tag paas-microservice:latest 887664210442.dkr.ecr.us-east-1.amazonaws.com/paas-microservice:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push 887664210442.dkr.ecr.us-east-1.amazonaws.com/paas-microservice:latest
+reports:
+  coverage:
+    files:
+      - "coverage/*"
+    base-directory: "test-reports"
+    discard-paths: yes
+  report:
+    files:
+      - "junit.xml"
+      - "report.html"
+      - "assets/*"
+    base-directory: "test-reports"
+    discard-paths: yes
+    file-format: JunitXml
+artifact:
+  files:
+    - "*/"
