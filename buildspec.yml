@@ -41,19 +41,11 @@ phases:
       - printf '{"imageDetail":[{"name":"paas-microservice","imageUri":"%s"}]}' 887664210442.dkr.ecr.us-east-1.amazonaws.com/paas-microservice:latest > imageDetail.json
       - cat imagedefinitions.json
 reports:
-  coverage:
-    files:
-      - "test-reports/coverage/*"
+  junit:
+    files: "junit.xml"
     base-directory: "test-reports"
+    file-format: JUNITXML
     discard-paths: yes
-  report:
-    files:
-      - "test-reports/junit.xml"
-      - "test-reports/report.html"
-      - "test-reports/assets/*"
-    base-directory: "test-reports"
-    discard-paths: yes
-    file-format: JunitXml
 artifact:
   files:
     - "**/*"
