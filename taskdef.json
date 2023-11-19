@@ -1,55 +1,32 @@
 {
-    "executionRoleArn": "arn:aws:iam::887664210442:role/ecsTaskExecutionRole",
-    "containerDefinitions": [
+  "executionRoleArn": "arn:aws:iam::887664210442:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "portMappings": [
         {
-            "portMappings": [
-                {
-                    "hostPort": 3000,
-                    "protocol": "tcp",
-                    "containerPort": 3000
-                }
-            ],
-            "image": "<IMAGE_NAME>",
-            "essential": true,
-            "name": "paas-microservice",
-            "secrets":[
-                {
-                    "valueFrom": "arn:aws:secretsmanager:us-east-1:887664210442:secret:DB_CREDENTIALS-7jHeOp:engine::",
-                    "name": "DB_NAME"
-                },
-                {
-                    "valueFrom": "arn:aws:secretsmanager:us-east-1:887664210442:secret:DB_CREDENTIALS-7jHeOp:host::",
-                    "name": "DB_HOST"
-                },
-                {
-                    "valueFrom": "arn:aws:secretsmanager:us-east-1:887664210442:secret:DB_CREDENTIALS-7jHeOp:port::",
-                    "name": "DB_PORT"
-                },
-                {
-                    "valueFrom": "arn:aws:secretsmanager:us-east-1:887664210442:secret:DB_CREDENTIALS-7jHeOp:username::",
-                    "name": "DB_USERNAME"
-                },
-                {
-                    "valueFrom": "arn:aws:secretsmanager:us-east-1:887664210442:secret:DB_CREDENTIALS-7jHeOp:password::",
-                    "name": "DB_PASSWORD"
-                }
-            ],
-            "logConfiguration": {
-                "logDriver": "awslogs",
-                "options": {
-                    "awslogs-group": "/ecs/paas-microservice",
-                    "awslogs-region": "us-east-1",
-                    "awslogs-create-group": "true",
-                    "awslogs-stream-prefix": "ecs"
-                }
-            }
+          "hostPort": 3000,
+          "protocol": "tcp",
+          "containerPort": 3000
         }
-    ],
-    "requiresCompatibilities": [
-        "FARGATE"
-    ],
-    "networkMode": "awsvpc",
-    "cpu": "256",
-    "memory": "512",
-    "family": "Task-paas-microservice"
+      ],
+      "image": "<IMAGE_NAME>",
+      "essential": true,
+      "name": "paas-microservice",
+      "secrets": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/paas-microservice",
+          "awslogs-region": "us-east-1",
+          "awslogs-create-group": "true",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ],
+  "requiresCompatibilities": ["FARGATE"],
+  "networkMode": "awsvpc",
+  "cpu": "256",
+  "memory": "512",
+  "family": "Task-paas-microservice"
 }
