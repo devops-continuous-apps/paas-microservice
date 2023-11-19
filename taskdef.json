@@ -1,0 +1,24 @@
+{
+    "executionRoleArn": "arn:aws:iam::887664210442:role/EcsCodeDeployRole",
+    "containerDefinitions": [
+        {
+            "portMappings": [
+                {
+                    "hostPort": 3000,
+                    "protocol": "tcp",
+                    "containerPort": 3000
+                }
+            ],
+            "image": "<IMAGE_NAME>",
+            "essential": true,
+            "name": "paas-microservice"
+        }
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "networkMode": "awsvpc",
+    "cpu": "256",
+    "memory": "512",
+    "family": "Task-paas-microservice"
+}

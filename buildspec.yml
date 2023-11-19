@@ -35,6 +35,11 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push 887664210442.dkr.ecr.us-east-1.amazonaws.com/paas-microservice:latest
+      - echo Writing image definitions file...
+      - printf '[{"name":"paas-microservice","imageUri":"%s"}]' 887664210442.dkr.ecr.us-east-1.amazonaws.com/paas-microservice:latest > imagedefinitions.json
+      - echo Writing image details file used for deployment...
+      - printf '{"imageDetail":[{"name":"paas-microservice","imageUri":"%s"}]}' 887664210442.dkr.ecr.us-east-1.amazonaws.com/paas-microservice:latest > imageDetail.json
+      - cat imagedefinitions.json
 reports:
   coverage:
     files:
@@ -51,4 +56,14 @@ reports:
     file-format: JunitXml
 artifact:
   files:
-    - "*/"
+    - "**/*"
+    - imagedefinitions.json
+    - imageDetail.json
+  secondary-artifacts:
+    DefinitionArtifact:
+      files:
+        - appspec.json
+        - taskdef.json
+    ImageArtifact:
+      files:
+        - imageDetail.json
