@@ -38,7 +38,7 @@ phases:
       - echo Writing image definitions file...
       - printf '[{"name":"paas-microservice","imageUri":"%s"}]' 887664210442.dkr.ecr.us-east-1.amazonaws.com/paas-microservice:latest > imagedefinitions.json
       - echo Writing image details file used for deployment...
-      - printf '{"imageDetail":[{"name":"paas-microservice","imageUri":"%s"}]}' 887664210442.dkr.ecr.us-east-1.amazonaws.com/paas-microservice:latest > imageDetail.json
+      - printf '{"ImageURI":"%s"}' 887664210442.dkr.ecr.us-east-1.amazonaws.com/paas-microservice:latest > imageDetail.json
       - cat imagedefinitions.json
 reports:
   junit:
@@ -46,7 +46,7 @@ reports:
     base-directory: "test-reports"
     file-format: JUNITXML
     discard-paths: yes
-artifact:
+artifacts:
   files:
     - "**/*"
     - imagedefinitions.json
