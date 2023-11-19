@@ -38,14 +38,14 @@ phases:
 reports:
   coverage:
     files:
-      - "coverage/*"
+      - "test-reports/coverage/*"
     base-directory: "test-reports"
     discard-paths: yes
   report:
     files:
-      - "junit.xml"
-      - "report.html"
-      - "assets/*"
+      - "test-reports/junit.xml"
+      - "test-reports/report.html"
+      - "test-reports/assets/*"
     base-directory: "test-reports"
     discard-paths: yes
     file-format: JunitXml
